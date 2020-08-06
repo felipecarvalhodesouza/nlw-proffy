@@ -55,7 +55,7 @@ function TeacherForm(){
                         {value:'Português', label:'Português'},
                         {value:'Química', label:'Química'}
                     ]}
-                />''
+                />
                 <Input name="cost" label="Custo da sua hora por aula"/>
             </fieldset>
 
