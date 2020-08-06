@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
+// import de useState é o que permite que o react atualize os componentes baseado
+// em atributos normais - necessário que use o 'useState'
 import PageHeader from '../../components/PageHeader';
 import './styles.css';
 import Input from '../../components/Input';
@@ -7,6 +9,19 @@ import Textarea from '../../components/Textarea';
 import Select from '../../components/Select';
 
 function TeacherForm(){
+    // estado é imutável, por isso preciso de outro método que cria uma nova lista
+    const [scheduleItems, setScheduleItems]  = useState([
+        { week_day: 0, from: '', to: '' }
+    ]);
+
+    function addNewScheduleItem(){
+        // SPREAD OPERADOR - maneira mais fácil de copiar uma lista no js [ ... ]
+        setScheduleItems([
+            ...scheduleItems,
+            { week_day: 0, from: '', to: '' }
+        ]);
+    }
+
     return(
         <div id="page-teacher-form" className="container">
         <PageHeader 
@@ -42,6 +57,38 @@ function TeacherForm(){
                     ]}
                 />''
                 <Input name="cost" label="Custo da sua hora por aula"/>
+            </fieldset>
+
+            <fieldset>
+                <legend>
+                    Horários disponíveis
+                    <button type="button" onClick={addNewScheduleItem}>
+                    + Novo horário
+                    </button>
+                </legend>
+
+                {scheduleItems.map(scheduleItem =>{
+                    return(
+                        <div key={scheduleItem.week_day} className="schedule-item">
+                            <Select 
+                                name="week_day"
+                                label="Dia da semana"
+                                options={[
+                                    {value:'0', label:'Domingo'},
+                                    {value:'1', label:'Segunda-feira'},
+                                    {value:'2', label:'Terça-feira'},
+                                    {value:'3', label:'Quarta-feira'},
+                                    {value:'4', label:'Quinta-feira'},
+                                    {value:'5', label:'Sexta-feira'},
+                                    {value:'6', label:'Sábado'}
+                                ]}
+                            />
+                            <Input name="from" label="Das" type="time" />
+                            <Input name="to" label="Até" type="time" />
+                        </div>
+                    );
+                })}
+
             </fieldset>
             <footer>
                 <p>
